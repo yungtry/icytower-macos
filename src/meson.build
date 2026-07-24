@@ -1,4 +1,4 @@
-project('icytower', 'c', version: '0.2.1')
+project('icytower', 'c', version: '0.3.0')
 
 app_id = 'io.github.royeldar.icytower'
 
