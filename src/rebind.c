@@ -89,16 +89,16 @@ void draw_rebind(const struct shared_state *shared_state) {
     assert(name != NULL);
     draw_menu(shared_state);
     al_set_blender(ALLEGRO_ADD, ALLEGRO_ZERO, ALLEGRO_ALPHA);
-    al_draw_filled_rectangle(0, 200, 639, 260, al_map_rgba(0, 0, 0, 200));
-    al_draw_filled_rectangle(0, 201, 639, 259, al_map_rgba(0, 0, 0, 195));
-    al_draw_filled_rectangle(0, 202, 639, 258, al_map_rgba(0, 0, 0, 190));
-    al_draw_filled_rectangle(0, 203, 639, 257, al_map_rgba(0, 0, 0, 185));
-    al_draw_filled_rectangle(0, 204, 639, 256, al_map_rgba(0, 0, 0, 180));
-    al_draw_filled_rectangle(0, 205, 639, 255, al_map_rgba(0, 0, 0, 175));
-    al_draw_filled_rectangle(0, 206, 639, 254, al_map_rgba(0, 0, 0, 170));
-    al_draw_filled_rectangle(0, 207, 639, 253, al_map_rgba(0, 0, 0, 165));
-    al_draw_filled_rectangle(0, 208, 639, 252, al_map_rgba(0, 0, 0, 160));
-    al_draw_filled_rectangle(0, 209, 639, 251, al_map_rgba(0, 0, 0, 155));
+    al_draw_filled_rectangle(0, 200, 640, 261, al_map_rgba(0, 0, 0, 200));
+    al_draw_filled_rectangle(0, 201, 640, 260, al_map_rgba(0, 0, 0, 195));
+    al_draw_filled_rectangle(0, 202, 640, 259, al_map_rgba(0, 0, 0, 190));
+    al_draw_filled_rectangle(0, 203, 640, 258, al_map_rgba(0, 0, 0, 185));
+    al_draw_filled_rectangle(0, 204, 640, 257, al_map_rgba(0, 0, 0, 180));
+    al_draw_filled_rectangle(0, 205, 640, 256, al_map_rgba(0, 0, 0, 175));
+    al_draw_filled_rectangle(0, 206, 640, 255, al_map_rgba(0, 0, 0, 170));
+    al_draw_filled_rectangle(0, 207, 640, 254, al_map_rgba(0, 0, 0, 165));
+    al_draw_filled_rectangle(0, 208, 640, 253, al_map_rgba(0, 0, 0, 160));
+    al_draw_filled_rectangle(0, 209, 640, 252, al_map_rgba(0, 0, 0, 155));
     al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
     al_draw_textf(g_font1, al_map_rgb(255, 255, 255),
         320, 210, ALLEGRO_ALIGN_CENTER,

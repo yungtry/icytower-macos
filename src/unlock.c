@@ -45,7 +45,7 @@ void draw_unlock(const struct shared_state *shared_state) {
     ALLEGRO_BITMAP *heroface = get_gfx_bitmap("heroface000.bmp");
     al_draw_bitmap(title_bg, 0, 0, 0);
     al_set_blender(ALLEGRO_ADD, ALLEGRO_ZERO, ALLEGRO_ALPHA);
-    al_draw_filled_rectangle(0, 0, 639, 479, al_map_rgba(0, 0, 0, 100));
+    al_draw_filled_rectangle(0, 0, 640, 480, al_map_rgba(0, 0, 0, 100));
     al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
     al_draw_bitmap(heroface, 320 - al_get_bitmap_width(heroface) / 2, 20, 0);
     al_draw_text(g_font1, al_map_rgb(255, 255, 255),
