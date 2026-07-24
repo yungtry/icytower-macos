@@ -78,6 +78,7 @@ sources = files(
   'credits.c',
   'events.c',
   'exit.c',
+  'eye_candy.c',
   'flatpak.c',
   'floor.c',
   'fonts.c',
@@ -108,7 +109,6 @@ sources = files(
   'stars.c',
   'synchronization.c',
   'triple_buffer.c',
-  'eye_candy.c',
 )
 
 if host_machine.system() == 'linux'
