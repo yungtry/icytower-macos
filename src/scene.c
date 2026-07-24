@@ -16,6 +16,7 @@
 #include "rebind.h"
 #include "scene.h"
 #include "shared_state.h"
+#include "unlock.h"
 
 enum scene g_scene = -1;
 unsigned char g_overlay_alpha = 255;
@@ -34,6 +35,9 @@ static void initialize_scene(bool *quit) {
         break;
     case GAMEOVER_SCENE:
         initialize_gameover();
+        break;
+    case UNLOCK_SCENE:
+        initialize_unlock();
         break;
     case INSTRUCTIONS_SCENE:
         initialize_instructions();
@@ -60,6 +64,9 @@ static void finalize_scene() {
         break;
     case GAMEOVER_SCENE:
         finalize_gameover();
+        break;
+    case UNLOCK_SCENE:
+        finalize_unlock();
         break;
     case INSTRUCTIONS_SCENE:
         finalize_instructions();
@@ -115,6 +122,9 @@ void update_scene(bool *quit) {
             break;
         case GAMEOVER_SCENE:
             update_gameover();
+            break;
+        case UNLOCK_SCENE:
+            update_unlock();
             break;
         case INSTRUCTIONS_SCENE:
             update_instructions();
@@ -180,6 +190,9 @@ void draw_scene(const struct shared_state *shared_state) {
         break;
     case GAMEOVER_SCENE:
         draw_gameover(shared_state);
+        break;
+    case UNLOCK_SCENE:
+        draw_unlock(shared_state);
         break;
     case INSTRUCTIONS_SCENE:
         draw_instructions(shared_state);

@@ -12,9 +12,11 @@
 #include "floor.h"
 
 #define GAME    "game"
-#define FLOOR   "floor"
+#define START_FLOOR "start_floor"
+#define BEST_FLOOR  "best_floor"
 
 int g_start_floor = -1;
+int g_best_floor = -1;
 
 struct floor g_floors[] = {
     {
@@ -85,11 +87,25 @@ struct floor g_floors[] = {
     },
 };
 
-bool read_start_floor_option() {
-    const char *str = al_get_config_value(g_config, GAME, FLOOR);
+static bool read_best_floor_option() {
+    const char *str = al_get_config_value(g_config, GAME, BEST_FLOOR);
     if (str != NULL) {
         int n = atoi(str);
-        if (n >= 0 && n < NUM_FLOORS)
+        if (n >= 0 && n < NUM_FLOORS - 1)
+            g_best_floor = n;
+        else
+            return false;
+    } else {
+        g_best_floor = 0;
+    }
+    return true;
+}
+
+static bool read_start_floor_option() {
+    const char *str = al_get_config_value(g_config, GAME, START_FLOOR);
+    if (str != NULL) {
+        int n = atoi(str);
+        if (n >= 0 && n <= g_best_floor)
             g_start_floor = n;
         else
             return false;
@@ -99,12 +115,31 @@ bool read_start_floor_option() {
     return true;
 }
 
-void write_start_floor_option() {
+bool read_floor_options() {
+    return read_best_floor_option() && read_start_floor_option();
+}
+
+static void write_best_floor_option() {
+    if (g_best_floor != -1) {
+        char str[3];
+        assert(g_best_floor >= 0 && g_best_floor < NUM_FLOORS - 1);
+        assert(g_best_floor < 100);
+        if (sprintf(str, "%d", g_best_floor) > 0)
+            al_set_config_value(g_config, GAME, BEST_FLOOR, str);
+    }
+}
+
+static void write_start_floor_option() {
     if (g_start_floor != -1) {
         char str[3];
-        assert(NUM_FLOORS <= 100);
-        assert(g_start_floor >= 0 && g_start_floor < NUM_FLOORS);
+        assert(g_start_floor >= 0 && g_start_floor <= g_best_floor);
+        assert(g_start_floor < 100);
         if (sprintf(str, "%d", g_start_floor) > 0)
-            al_set_config_value(g_config, GAME, FLOOR, str);
+            al_set_config_value(g_config, GAME, START_FLOOR, str);
     }
+}
+
+void write_floor_options() {
+    write_best_floor_option();
+    write_start_floor_option();
 }

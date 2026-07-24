@@ -167,7 +167,7 @@ static void update_menu_page() {
             play_sound("menu_change.ogg", false, false, NULL);
             if (left && (g_start_floor > 0))
                 g_start_floor--;
-            else if (right && (g_start_floor < NUM_FLOORS - 2))
+            else if (right && (g_start_floor < g_best_floor))
                 g_start_floor++;
         } else if ((g_menu_page == GFX_OPTIONS_PAGE) && (g_menu_item == 0)) {
             play_sound("menu_change.ogg", false, false, NULL);

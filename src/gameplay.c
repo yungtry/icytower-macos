@@ -520,9 +520,17 @@ static void update_resume() {
 }
 
 static void update_end() {
-    stop_music();
+    int last_floor = g_last_level / 100;
     g_offset_y = 0;
-    transition_scene(GAMEOVER_SCENE, 0);
+    if (last_floor >= NUM_FLOORS - 1)
+        last_floor = NUM_FLOORS - 2;
+    if (last_floor > g_best_floor) {
+        g_best_floor = last_floor;
+        transition_scene(UNLOCK_SCENE, 16);
+    } else {
+        stop_music();
+        transition_scene(GAMEOVER_SCENE, 0);
+    }
 }
 
 /**

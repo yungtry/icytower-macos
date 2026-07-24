@@ -12,8 +12,9 @@ struct floor {
 };
 
 extern int g_start_floor;
+extern int g_best_floor;
 
 extern struct floor g_floors[NUM_FLOORS];
 
-bool read_start_floor_option();
-void write_start_floor_option();
+bool read_floor_options();
+void write_floor_options();

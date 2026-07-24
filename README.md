@@ -125,7 +125,6 @@ Uninstallation can be done by running
 
 * Implement replay loading and saving
 * Add support for custom characters
-* Add ability to unlock floors
 * Add highscore tables
 * Implement missing visual effects (hue-shifting)
 * Add controller support

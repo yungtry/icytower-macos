@@ -119,9 +119,9 @@ bool game_setup() {
         return false;
     }
 
-    // read start floor option from configuration
-    if (!read_start_floor_option()) {
-        printf("read_start_floor_option() failed\n");
+    // read floor options from configuration
+    if (!read_floor_options()) {
+        printf("read_floor_options() failed\n");
         return false;
     }
 
@@ -285,8 +285,8 @@ void game_cleanup() {
         write_controls_options();
         // write character option to configuration
         write_character_option();
-        // write start floor option to configuration
-        write_start_floor_option();
+        // write floor options to configuration
+        write_floor_options();
         // save configuration
         save_config(CONFIG_FILE);
     }

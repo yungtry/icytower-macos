@@ -109,6 +109,7 @@ sources = files(
   'stars.c',
   'synchronization.c',
   'triple_buffer.c',
+  'unlock.c',
 )
 
 if host_machine.system() == 'linux'
