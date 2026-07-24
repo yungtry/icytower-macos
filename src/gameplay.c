@@ -882,10 +882,10 @@ static void draw_pause(const struct shared_state *shared_state) {
     if (pause) {
         unsigned int x, y;
         for (x = 0; x < 640; x += 2) {
-            al_draw_line(x, 0, x, 480, al_map_rgb(0, 0, 0), 0);
+            al_draw_line(x + 0.5, 0, x + 0.5, 480, al_map_rgb(0, 0, 0), 1);
         }
         for (y = 0; y < 480; y += 2) {
-            al_draw_line(0, y, 640, y, al_map_rgb(0, 0, 0), 0);
+            al_draw_line(0, y + 0.5, 640, y + 0.5, al_map_rgb(0, 0, 0), 1);
         }
         if (escape) {
             al_draw_text(g_font1, al_map_rgb(255, 255, 255),
