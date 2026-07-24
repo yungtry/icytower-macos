@@ -2,6 +2,8 @@
  * Pseudorandom generation routines
  */
 
+#include "random.h"
+
 static unsigned int seed_msvc = 1;
 static double seed_custom = 0;
 
