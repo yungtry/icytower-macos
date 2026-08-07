@@ -4,6 +4,10 @@ app_id = 'io.github.royeldar.icytower'
 
 cc = meson.get_compiler('c')
 
+if host_machine.system() == 'windows'
+  windows = import('windows')
+endif
+
 if host_machine.system() == 'linux'
   liballegro5_deps = [
     dependency('allegro-5'),
@@ -118,6 +122,10 @@ else
   assets_dir = get_option('bindir')
 endif
 
+if host_machine.system() == 'windows'
+  sources += windows.compile_resources('misc/icytower.rc')
+endif
+
 executable(
   'icytower',
   sources: sources,
@@ -144,8 +152,8 @@ if host_machine.system() == 'linux'
     install_dir: get_option('datadir') / 'applications',
   )
   install_data(
-    'misc/icytower.svg',
-    rename: app_id + '.svg',
-    install_dir: get_option('datadir') / 'icons/hicolor/scalable/apps',
+    'misc/icon/icytower.png',
+    rename: app_id + '.png',
+    install_dir: get_option('datadir') / 'icons/hicolor/32x32/apps',
   )
 endif

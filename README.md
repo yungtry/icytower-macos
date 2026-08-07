@@ -12,6 +12,7 @@ In order to build the game, the following packages are needed:
 - `docker.io`
 - `innoextract`
 - `liballegro4-dev` (for `allegro-dev-tools`)
+- `icoutils` (for `wrestool` and `icotool`)
 
 ## Building instructions
 
@@ -28,7 +29,7 @@ cd assets
 ./extract.sh
 ```
 
-This will populate `src/misc/gfx/` & `src/misc/sfx/` with the needed assets.
+This will populate `src/misc/gfx/`, `src/misc/sfx/` and `src/misc/icon/` with the needed assets.
 
 ### Linux
 
@@ -116,4 +117,3 @@ Uninstallation can be done by running
 * Implement missing visual effects (hue-shifting)
 * Add controller support
 * Add screenshot functionality
-* Add a desktop icon

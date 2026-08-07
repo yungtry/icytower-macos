@@ -195,3 +195,7 @@ dat -e -o ../src/misc/sfx/dave/goinon.ogg dave.dat 020
 dat -e -o ../src/misc/sfx/dave/digging.ogg dave.dat 021
 dat -e -o ../src/misc/sfx/dave/watchit.ogg dave.dat 022
 dat -e -o ../src/misc/sfx/dave/bg_dave.ogg dave.dat 023
+
+# icon
+wrestool -x --type=14 --output=../src/misc/icon/icytower.ico icytower13.exe
+icotool -x --output=../src/misc/icon/icytower.png ../src/misc/icon/icytower.ico
