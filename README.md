@@ -49,15 +49,6 @@ One may also build a Flatpak bundle containing debugging information, by running
 
 This will create a runtime bundle called `icytower.Debug.flatpak`.
 
-Building directly is not recommended because it can lead to issues when trying to run the binary on a different pc.
-
-However, it can be done by running
-
-```sh
-meson setup build src
-meson compile -C build
-```
-
 ### Windows
 
 Building for Windows is done using MinGW, inside a Docker container:
