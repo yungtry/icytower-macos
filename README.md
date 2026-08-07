@@ -4,6 +4,15 @@
 
 This is an open source remake of Icy Tower 1.3.1 using Allegro 5.
 
+## Prerequisites
+
+In order to build the game, the following packages are needed:
+
+- `flatpak`
+- `docker.io`
+- `innoextract`
+- `liballegro4-dev` (for `allegro-dev-tools`)
+
 ## Building instructions
 
 First, one need to extract the assets from the original game.
