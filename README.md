@@ -36,16 +36,7 @@ This will populate `src/misc/gfx/` & `src/misc/sfx/` with the needed assets.
 
 ### Linux
 
-Building for a Linux distribution is pretty easy; simply run
-
-```sh
-meson setup build src
-meson compile -C build
-```
-
-However, there might be dependency issues when trying to run the binary on a different pc.
-
-Therefore, one can build a Flatpak bundle; in order to do that, run
+Building for a Linux distribution is done using Flatpak:
 
 ```sh
 ./scripts/setup.sh
@@ -61,6 +52,15 @@ One may also build a Flatpak bundle containing debugging information, by running
 ```
 
 This will create a runtime bundle called `icytower.Debug.flatpak`.
+
+Building directly is not recommended because it can lead to issues when trying to run the binary on a different pc.
+
+However, it can be done by running
+
+```sh
+meson setup build src
+meson compile -C build
+```
 
 ### Windows
 
