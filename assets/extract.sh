@@ -199,3 +199,4 @@ dat -e -o ../src/misc/sfx/dave/bg_dave.ogg dave.dat 023
 # icon
 wrestool -x --type=14 --output=../src/misc/icon/icytower.ico icytower13.exe
 icotool -x --output=../src/misc/icon/icytower.png ../src/misc/icon/icytower.ico
+cp ../src/misc/icon/icytower.png ../src/misc/gfx/icon.png

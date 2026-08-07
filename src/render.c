@@ -61,6 +61,8 @@ static int render_setup() {
         printf("load_gfx_bitmaps() failed\n");
         return STATUS_FAILURE;
     }
+    // set window icon
+    al_set_display_icon(display, get_gfx_bitmap("icon.png"));
     // convert mask color to alpha
     if (!iterate_gfx_bitmaps(convert_mask_to_alpha_callback)) {
         printf("iterate_gfx_bitmaps() failed\n");
