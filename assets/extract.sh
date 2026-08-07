@@ -2,6 +2,10 @@
 
 PASSWORD=gostflor
 
+# inno setup
+rm -rf _extracted
+innoextract -d _extracted icytower131_install.exe
+
 # gfx (general)
 
 dat -007 $PASSWORD -e -o ../src/misc/gfx/bgtile.bmp -pal AAAPAL data.dat BGTILE
