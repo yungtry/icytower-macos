@@ -8,3 +8,10 @@ icytower.flatpak
 icytower.Debug.flatpak
 icytower.zip
 repo
+
+# macOS & Xcode
+.DS_Store
+xcuserdata/
+*.xcworkspace/xcuserdata/
+build/
+DerivedData/

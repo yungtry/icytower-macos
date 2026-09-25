@@ -24,7 +24,7 @@
 #include "menu.h"
 #include "music_volume.h"
 #include "random.h"
-#include "render.h"
+#include "events.h"
 #include "scene.h"
 #include "screenshake.h"
 #include "sfx.h"

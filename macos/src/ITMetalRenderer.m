@@ -1,7 +1,9 @@
 #import "ITMetalRenderer.h"
 #import <MetalKit/MetalKit.h>
 
-#define MAX_VERTICES 32768
+#define NUM_FRAME_BUFFERS 3
+#define VERTEX_BUFFER_CAPACITY (4 * 1024 * 1024) // 4 MB per frame buffer
+#define BATCH_VERTEX_LIMIT 4096
 
 typedef struct {
     matrix_float4x4 projectionMatrix;
@@ -12,14 +14,19 @@ typedef struct {
     id<MTLCommandQueue> _commandQueue;
     id<MTLRenderPipelineState> _pipelineState;
     id<MTLSamplerState> _samplerState;
-    id<MTLBuffer> _vertexBuffer;
+    
+    id<MTLBuffer> _vertexBuffers[NUM_FRAME_BUFFERS];
+    NSUInteger _currentBufferIndex;
+    NSUInteger _bufferOffset;
+    dispatch_semaphore_t _frameSemaphore;
+    
     id<MTLTexture> _whiteTexture;
     
     id<MTLCommandBuffer> _currentCommandBuffer;
     id<MTLRenderCommandEncoder> _currentEncoder;
     id<MTLTexture> _currentTexture;
     
-    ITVertex _vertexArray[MAX_VERTICES];
+    ITVertex _vertexArray[BATCH_VERTEX_LIMIT];
     NSUInteger _vertexCount;
     ITUniforms _uniforms;
 }
@@ -47,6 +54,7 @@ typedef struct {
 - (BOOL)setupWithDevice:(id<MTLDevice>)device pixelFormat:(MTLPixelFormat)pixelFormat {
     _device = device;
     _commandQueue = [_device newCommandQueue];
+    _frameSemaphore = dispatch_semaphore_create(NUM_FRAME_BUFFERS);
     
     NSError *error = nil;
     id<MTLLibrary> library = [_device newDefaultLibrary];
@@ -104,8 +112,12 @@ typedef struct {
     sDesc.tAddressMode = MTLSamplerAddressModeClampToEdge;
     _samplerState = [_device newSamplerStateWithDescriptor:sDesc];
     
-    _vertexBuffer = [_device newBufferWithLength:MAX_VERTICES * sizeof(ITVertex)
-                                         options:MTLResourceStorageModeShared];
+    for (int i = 0; i < NUM_FRAME_BUFFERS; i++) {
+        _vertexBuffers[i] = [_device newBufferWithLength:VERTEX_BUFFER_CAPACITY
+                                                 options:MTLResourceStorageModeShared];
+    }
+    _currentBufferIndex = 0;
+    _bufferOffset = 0;
     
     // 1x1 white texture
     MTLTextureDescriptor *tDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
@@ -134,7 +146,18 @@ typedef struct {
 - (void)beginFrameWithCommandBuffer:(id<MTLCommandBuffer>)commandBuffer
                  renderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor
                          drawableSize:(CGSize)drawableSize {
+    dispatch_semaphore_wait(_frameSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_t sem = _frameSemaphore;
+    [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> cb) {
+        dispatch_semaphore_signal(sem);
+    }];
+    
     _currentCommandBuffer = commandBuffer;
+    _currentBufferIndex = (_currentBufferIndex + 1) % NUM_FRAME_BUFFERS;
+    _bufferOffset = 0;
+    _vertexCount = 0;
+    _currentTexture = nil;
+    
     _currentEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
     [_currentEncoder setRenderPipelineState:_pipelineState];
     [_currentEncoder setFragmentSamplerState:_samplerState atIndex:0];
@@ -149,8 +172,8 @@ typedef struct {
     MTLViewport vp = { vpX, vpY, vpW, vpH, 0.0, 1.0 };
     [_currentEncoder setViewport:vp];
     
-    _vertexCount = 0;
-    _currentTexture = nil;
+    MTLScissorRect scissor = { (NSUInteger)MAX(0.0f, vpX), (NSUInteger)MAX(0.0f, vpY), (NSUInteger)MAX(1.0f, vpW), (NSUInteger)MAX(1.0f, vpH) };
+    [_currentEncoder setScissorRect:scissor];
 }
 
 - (void)flush {
@@ -158,11 +181,22 @@ typedef struct {
         return;
     }
     
-    memcpy(_vertexBuffer.contents, _vertexArray, _vertexCount * sizeof(ITVertex));
-    [_currentEncoder setVertexBuffer:_vertexBuffer offset:0 atIndex:0];
+    NSUInteger bytesToCopy = _vertexCount * sizeof(ITVertex);
+    // Align to 256 bytes for Metal setVertexBuffer offset requirement
+    NSUInteger alignedOffset = (_bufferOffset + 255) & ~255;
+    
+    if (alignedOffset + bytesToCopy > VERTEX_BUFFER_CAPACITY) {
+        alignedOffset = 0; // Wrap around if capacity exceeded
+    }
+    
+    id<MTLBuffer> curBuffer = _vertexBuffers[_currentBufferIndex];
+    memcpy((uint8_t *)curBuffer.contents + alignedOffset, _vertexArray, bytesToCopy);
+    
+    [_currentEncoder setVertexBuffer:curBuffer offset:alignedOffset atIndex:0];
     [_currentEncoder setFragmentTexture:_currentTexture atIndex:0];
     [_currentEncoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:_vertexCount];
     
+    _bufferOffset = alignedOffset + bytesToCopy;
     _vertexCount = 0;
 }
 
@@ -216,7 +250,7 @@ typedef struct {
                p2:(vector_float2)p2 uv2:(vector_float2)uv2
                p3:(vector_float2)p3 uv3:(vector_float2)uv3
             color:(vector_float4)color {
-    if (_vertexCount + 6 > MAX_VERTICES) {
+    if (_vertexCount + 6 > BATCH_VERTEX_LIMIT) {
         [self flush];
     }
     

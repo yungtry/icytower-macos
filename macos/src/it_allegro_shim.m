@@ -489,7 +489,7 @@ void al_convert_mask_to_alpha(ALLEGRO_BITMAP *bitmap, ALLEGRO_COLOR mask_color) 
         unsigned char g = (px >> 8) & 0xFF;
         unsigned char b = (px >> 16) & 0xFF;
         if (r == mr && g == mg && b == mb) {
-            bitmap->pixels[i] = (px & 0x00FFFFFF); // alpha = 0, keep RGB
+            bitmap->pixels[i] = 0; // alpha = 0, RGB = 0
         }
     }
     bitmap->is_texture_dirty = true;

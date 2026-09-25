@@ -3,6 +3,11 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    NSImage *appIcon = [NSImage imageNamed:@"AppIcon"];
+    if (appIcon) {
+        [NSApp setApplicationIconImage:appIcon];
+    }
+    
     NSRect screenRect = [[NSScreen mainScreen] visibleFrame];
     NSRect windowRect = NSMakeRect(screenRect.origin.x + (screenRect.size.width - 640) * 0.5,
                                    screenRect.origin.y + (screenRect.size.height - 480) * 0.5,

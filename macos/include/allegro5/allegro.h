@@ -250,6 +250,10 @@ static inline void al_stop_timer(ALLEGRO_TIMER *t) {}
 static inline void al_wait_for_event(ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_EVENT *ret_event) {}
 static inline void al_clear_keyboard_state(void *display) {}
 static inline void al_resume_timer(ALLEGRO_TIMER *timer) {}
+static inline void al_lock_mutex(ALLEGRO_MUTEX *m) {}
+static inline void al_unlock_mutex(ALLEGRO_MUTEX *m) {}
+static inline void al_wait_cond(ALLEGRO_COND *c, ALLEGRO_MUTEX *m) {}
+static inline void al_signal_cond(ALLEGRO_COND *c) {}
 
 #ifdef __cplusplus
 }

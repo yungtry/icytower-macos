@@ -1,119 +1,28 @@
-# Icy Tower
+<div align="center">
+  <img src="icon.png" width="128" height="128" alt="Icy Tower">
 
-## Brief description
+  # Icy Tower (macOS)
 
-This is an open source remake of Icy Tower 1.3.1 using Allegro 5.
+  Native macOS Metal port of Icy Tower 1.3.
+</div>
 
-## Prerequisites
+## Build
 
-In order to build the game, the following packages are needed:
+Open `IcyTower.xcodeproj` in Xcode and press **⌘R**, or build via CLI:
 
-- `flatpak`
-- `docker.io`
-- `innoextract`
-- `liballegro4-dev` (for `allegro-dev-tools`)
-- `icoutils` (for `wrestool` and `icotool`)
-
-## Building instructions
-
-First, one need to extract the assets from the original game.
-
-Download the installer of the original game:
-* **URL**: [icytower131_install.exe](https://archive.org/download/Icy_Tower/icytower13.rar/icytower13_install.exe)
-* **SHA-1**: `a00aa6ebc4c37fac7c44de91671477ef7e32389a`
-
-Put `icytower131_install.exe` in `assets`, then run
-
-```sh
-cd assets
-./extract.sh
+```bash
+xcodebuild -scheme IcyTower -configuration Release build
 ```
 
-This will populate `src/misc/gfx/`, `src/misc/sfx/` and `src/misc/icon/` with the needed assets.
+## Controls
 
-### Linux
+| Key | Action |
+| --- | --- |
+| **← / →** | Move |
+| **Space** | Jump |
+| **Enter** | Select |
+| **Esc** | Pause / Back |
 
-Building for a Linux distribution is done using Flatpak:
+## License
 
-```sh
-./scripts/setup.sh
-./scripts/build.sh
-```
-
-This will create an application bundle called `icytower.flatpak`.
-
-One may also build a Flatpak bundle containing debugging information, by running
-
-```sh
-./scripts/debug/build.sh
-```
-
-This will create a runtime bundle called `icytower.Debug.flatpak`.
-
-### Windows
-
-Building for Windows is done using MinGW, inside a Docker container:
-
-```sh
-./scripts/win32/setup.sh
-./scripts/win32/build.sh
-```
-
-This creates a base Docker image called `icytower-base-win32`, and then a zip archive called `icytower.zip`.
-
-## Installation instructions
-
-### Linux
-
-Install the Flatpak bundle `icytower.flatpak` by running
-
-```sh
-./scripts/install.sh
-```
-
-Afterwards, run the app:
-
-```sh
-./scripts/run.sh
-```
-
-Uninstallation can be done by running
-
-```sh
-./scripts/uninstall.sh
-```
-
-### Windows
-
-Simply unzip the archive `icytower.zip` anywhere, then run `icytower.exe`.
-
-## Debugging (only for Linux)
-
-Install the Flatpak bundle `icytower.Debug.flatpak` by running
-
-```sh
-./scripts/debug/install.sh
-```
-
-Enter a shell environment inside the Flatpak runtime:
-
-```sh
-./scripts/debug/run.sh
-```
-
-Then, one may run stuff like `gdb icytower`, etc.
-
-Uninstallation can be done by running
-
-```sh
-./scripts/debug/uninstall.sh
-```
-
-## TODO
-
-* Implement replay loading and saving
-* Add support for custom characters
-* Add highscore tables
-* Implement missing visual effects (hue-shifting)
-* Add controller support
-* Add screenshot functionality
+[BSD 3-Clause](LICENSE.txt)
